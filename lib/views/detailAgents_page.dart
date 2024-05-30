@@ -1,122 +1,67 @@
-import 'package:responsi_praktpm/models/detail_agents.dart';
 import 'package:flutter/material.dart';
-import 'package:responsi_praktpm/services/api_service.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../models/agent_model.dart';
 
-class DetailAgentsScreen extends StatefulWidget {
-  final String uuid;
+class AgentDetailPage extends StatelessWidget {
+  final Agent agent;
 
-  const DetailAgentsScreen({Key? key, required this.uuid}) : super(key: key);
-
-  @override
-  _DetailAgentsScreenState createState() => _DetailAgentsScreenState();
-}
-
-class _DetailAgentsScreenState extends State<DetailAgentsScreen> {
-  late Future<DetailResponse> futureMeal;
-
-  @override
-  void initState() {
-    super.initState();
-    futureMeal = ApiDataSource.instance.loadAgentsDetail(widget.uuid);
-  }
+  AgentDetailPage({required this.agent});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Detail"),
+        title: Text(
+          agent.displayName,
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.purple[300],
       ),
-      body: FutureBuilder<DetailResponse>(
-        future: futureMeal,
-        builder:
-            (BuildContext context, AsyncSnapshot<DetailResponse> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text("Error loading meal detail"),
-            );
-          } else if (snapshot.hasData) {
-            return _buildAgentsDetail(snapshot.data!.detail[0]);
-          } else {
-            return Center(
-              child: Text("No data available"),
-            );
-          }
-        },
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Image.network(agent.fullPortrait),
+              SizedBox(height: 16.0),
+              Text(
+                "${agent.displayName} ${agent.developerName}",
+                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8.0),
+              Text(agent.description),
+              SizedBox(height: 16.0),
+              Text(
+                'Role: ${agent.role.displayName}',
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8.0),
+              Text(
+                'Abilities:',
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
+              Container(
+                padding: EdgeInsets.all(6.0),
+                decoration: BoxDecoration(
+                  color: Colors.purple[300],
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Column(
+                  children: agent.abilities.map((ability) {
+                    return ListTile(
+                      leading: Image.network(ability.displayIcon),
+                      title: Text(
+                        ability.displayName,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
-  }
-
-  Widget _buildAgentsDetail(DetailAgent detail) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.network(
-            detail.fullPortrait,
-            width: double.infinity,
-            height: 200,
-            fit: BoxFit.cover,
-          ),
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  detail.displayName + detail.developerName,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  "Role: ${detail.role.displayName}",
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  detail.description,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  "Abilities :",
-                  style: TextStyle(fontSize: 16),
-                ),
-                // SizedBox(height: 8),
-                // Image.network(
-                //   detail.abilities.,
-                //   width: double.infinity,
-                //   height: 200,
-                //   fit: BoxFit.cover,
-                // ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future openBrowserURL({
-    required String url,
-    bool inApp = false,
-  }) async {
-    if (await canLaunch(url)) {
-      await launch(
-        url,
-        forceWebView: inApp,
-        enableJavaScript: true,
-      );
-    }
   }
 }

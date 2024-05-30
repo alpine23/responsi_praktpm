@@ -18,38 +18,79 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(30.0),
+      body: Stack(
+        children: <Widget>[
+          // Background image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/Clove Wallpaper.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned.fill(
+            child: Container(
+              color: Colors.black.withOpacity(0.2),
+            ),
+          ),
+          // Content
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                      textStyle: TextStyle(fontSize: 20),
+                      backgroundColor: Color.fromARGB(255, 108, 22, 116),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ListAgentsScreen()),
+                          builder: (context) => ListAgentsScreen(),
+                        ),
                       );
                     },
-                    child: Text('Agents'),
+                    child: Text(
+                      'Agents',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                  ElevatedButton(onPressed: (){
-                    Navigator.push(
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                      textStyle: TextStyle(fontSize: 20),
+                      backgroundColor: Color.fromARGB(255, 108, 22, 116),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ListMapsScreen()),
+                          builder: (context) => ListMapsScreen(),
+                        ),
                       );
-                  },
-                  child: Text('Maps'),
-                  )
+                    },
+                    child: Text(
+                      'Maps',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
