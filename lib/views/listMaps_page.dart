@@ -46,7 +46,7 @@ class _ListMapsScreenState extends State<ListMapsScreen> {
                       EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                   child: InkWell(
                     onTap: () {
-                      _launchURL(maps[index].mapUrl);
+                      _launchURL(maps[index].displayIcon);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
