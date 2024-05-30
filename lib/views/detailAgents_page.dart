@@ -63,8 +63,8 @@ class AgentDetailPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.network(ability.displayIcon,
-                              height: 80, width: 80),
-                          SizedBox(height: 8.0),
+                              height: 40, width: 40),
+                          SizedBox(height: 5.0),
                           Text(
                             ability.displayName,
                             style: TextStyle(
