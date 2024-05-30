@@ -20,7 +20,6 @@ class _MenuScreenState extends State<MenuScreen> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          // Background image
           Positioned.fill(
             child: Image.asset(
               'assets/images/Clove Wallpaper.jpg',
